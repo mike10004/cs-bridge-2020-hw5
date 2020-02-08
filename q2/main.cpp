@@ -24,11 +24,11 @@ int main() {
     int randomNumber;
     
     srand(time(0));
-    randomNumber = (rand() % (RANDOM_MAX - RANDOM_MIN + 1)) + 1;
+    randomNumber = (rand() % (RANDOM_MAX - RANDOM_MIN + 1)) + RANDOM_MIN;
                                                                                                         // stage:remove
-    const char* envNumStr = getenv(ENV_NUM);                                                           // stage:remove
+    const char* envNumStr = getenv(ENV_NUM);                                                            // stage:remove
     if (envNumStr != nullptr) {                                                                         // stage:remove
-        long envNum = strtol(envNumStr, nullptr, 10);                                       // stage:remove
+        long envNum = strtol(envNumStr, nullptr, 10);                                                   // stage:remove
         if (envNum > 0 && envNum <= INT_MAX) {                                                          // stage:remove
             randomNumber = (int) envNum;                                                                // stage:remove
         } else {                                                                                        // stage:remove
@@ -45,28 +45,27 @@ int main() {
         cout << "Your guess: ";
         cin >> userGuess;
         numGuesses++;
-        if (userGuess != randomNumber) {
-            if (numGuesses >= MAX_GUESS_COUNT) {
-                cout << "Out of guesses! My number is " << randomNumber << endl;
+        if ((userGuess != randomNumber) && (numGuesses < MAX_GUESS_COUNT)) {
+            cout << "Wrong! My number is ";
+            if (userGuess < randomNumber) {
+                cout << "bigger.\n\n";
+                if (userGuess >= userGuessLowerBound) {
+                    userGuessLowerBound = userGuess + 1;
+                }
             } else {
-                cout << "Wrong! My number is ";
-                if (userGuess < randomNumber) {
-                    if (userGuess > userGuessLowerBound) {
-                        userGuessLowerBound = userGuess + 1;
-                    }
-                    cout << "bigger.\n\n";
-                } else {
-                    if (userGuess < userGuessUpperBound) {
-                        userGuessUpperBound = userGuess - 1;
-                    }
-                    cout << "smaller.\n\n";
+                cout << "smaller.\n\n";
+                if (userGuess <= userGuessUpperBound) {
+                    userGuessUpperBound = userGuess - 1;
                 }
             }
-        } else {
-            cout << "Congrats! You guessed my number in " << numGuesses << " guesses.\n";
         }
-    } while (userGuess != randomNumber && numGuesses < MAX_GUESS_COUNT);
+    } while ((userGuess != randomNumber) && (numGuesses < MAX_GUESS_COUNT));
 
+    if (userGuess == randomNumber) {
+        cout << "Congrats! You guessed my number in " << numGuesses << " guesses.\n";
+    } else {
+        cout << "Out of guesses! My number is " << randomNumber << endl;
+    }
     return 0;
 }
 
