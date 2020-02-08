@@ -9,3 +9,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+cmake-build*/
+/stage/
+__pycache__/
+test-cases/
+*.pyc
