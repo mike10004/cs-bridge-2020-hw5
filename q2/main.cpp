@@ -1,7 +1,13 @@
-// <author>
-// Question 2
+#pragma clang diagnostic push                       // stage:remove
+#pragma ide diagnostic ignored "hicpp-use-nullptr"  // stage:remove
+#pragma ide diagnostic ignored "cert-msc30-c"       // stage:remove
+#pragma ide diagnostic ignored "cert-msc32-c"       // stage:remove
+// mac937@nyu.edu
+// HW5 Question 2
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -10,10 +16,15 @@ const int RANDOM_MIN = 1;
 const int RANDOM_MAX = 100;
 
 int main() {
-    int userGuess, userGuessLowerBound = RANDOM_MIN, userGuessUpperBound = RANDOM_MAX, numGuesses = 0;
-    int randomNumber = 25;
-    cerr << "hello" << endl;
-    cout << "I thought of a number between 1 and 100! Try to guess it.\n";
+    int userGuess;
+    int userGuessLowerBound = RANDOM_MIN, userGuessUpperBound = RANDOM_MAX;
+    int numGuesses = 0;
+    int randomNumber;
+    srand(time(0));
+    randomNumber = (rand() % (RANDOM_MAX - RANDOM_MIN + 1)) + 1;
+    
+    cout << "I thought of a number between " << RANDOM_MIN << " and " << RANDOM_MAX << "! "; 
+    cout << "Try to guess it.\n";
     
     do {
         cout << "Range: [" << userGuessLowerBound << ", " << userGuessUpperBound << "], ";
@@ -45,3 +56,5 @@ int main() {
 
     return 0;
 }
+
+#pragma clang diagnostic pop
